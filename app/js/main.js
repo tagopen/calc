@@ -61,6 +61,7 @@ const GRVE = GRVE || {};
       GRVE.basicElements.init()
       GRVE.phoneMask.init()
       GRVE.ajax.init()
+      GRVE.ionRange.init()
     }
   }
 
@@ -144,6 +145,8 @@ const GRVE = GRVE || {};
     }
   }
 
+  
+
   // # Anchor scrolling effect
   // ============================================================================= //
   GRVE.anchorScroll = {
@@ -173,6 +176,23 @@ const GRVE = GRVE || {};
   GRVE.phoneMask = {
     init() {
       $('[type="tel"]').mask('+38 (099) 999 99 99')
+    }
+  }
+
+
+  // # Phone masked input
+  // ============================================================================= //
+  GRVE.ionRange = {
+    init() {
+      $("#c-info__range").ionRangeSlider({
+        type: "single",
+        grid: true,
+        step: 0.25,
+        min: 1,
+        max: 4,
+        values: [0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 2.25, 2.5, 2.75, 3, 3.25, 3.5, 3.75, 4],
+        hide_min_max: true,
+      });
     }
   }
 

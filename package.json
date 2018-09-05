@@ -86,7 +86,7 @@
       "node_modules/parsleyjs/dist/parsley.js",
       "//node_modules/select2/dist/js/select2.full.min.js",
       "//node_modules/air-datepicker/dist/js/datepicker.min.js",
-      "//node_modules/ion-rangeslider/js/ion.rangeSlider.min.js",
+      "node_modules/ion-rangeslider/js/ion.rangeSlider.min.js",
       "//node_modules/tooltipster/dist/js/tooltipster.bundle.min.js",
       "//node_modules/tooltipster/dist/js/SVG/tooltipster-SVG.min.js",
       "//node_modules/@fancyapps/fancybox/dist/jquery.fancybox.min.js",
