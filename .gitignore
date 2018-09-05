@@ -1,0 +1,30 @@
+# Files archive
+*.rar
+*.zip
+
+# sass cache
+app/.sass-cache
+
+# Folders to ignore
+bower_components
+node_modules
+dist
+build
+temp
+.idea
+
+# bower libs
+app/libs
+
+#gulp setting
+settings.js
+
+# git
+*.orig
+
+# npm
+package-lock.json
+yarn.lock
+
+#Ignore mac files
+.DS_Store

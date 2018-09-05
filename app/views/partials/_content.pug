@@ -1,0 +1,16 @@
+section.calc
+  .container
+    .row
+      .col-24.text-center
+        h2.calc__heading!=content.index.content.heading    
+        p.calc__subheading!=content.index.content.subheading  
+    .row
+      .col-24.col-md-8
+        .calc__picture
+          img.calc__img.img-fluid(src="img/s1.png" alt="стакан")
+      .col-24.col-md-16
+        .calc__info.c-info
+          .c-info__heading!=content.index.content.info.heading
+          .c-info__range
+            input#c-info__range(name='c-info__range', value='', type='text')
+                
