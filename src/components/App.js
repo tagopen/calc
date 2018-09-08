@@ -9,18 +9,29 @@ export default class App extends Component {
 
     this.singleLayer = singleLayer
     this.multiLayer = multiLayer
+    this.productsPerMonth = 0
 
     this.state = {
         isMultiLayer: false,
         isPrint: true,
         isCardboard: true,
-        rangeValue: 0
+        rangeValue: 0,
+        salary: "",
+        packing: "",
+        isSalaryMaxLimit: false,
+        rangeIndex: 0
     }
 
     this.setCapacityPerMonth(this.singleLayer)
     this.setCapacityPerMonth(this.multiLayer)
 
   }
+
+  prettify(num) {
+      const  n = num.toString()
+      return n.replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, "$1" + " ")
+  }
+
   getCapacityPerMonth(data) {
     const {capacityPerMinute, workingOursPerDay, workingDaysPerMonth} = data
 
@@ -55,7 +66,50 @@ export default class App extends Component {
   }
 
   changeSelected(val) {
-    this.setState({rangeValue: val})
+    const isMultiLayer = this.state.isMultiLayer
+    const currentLayer = isMultiLayer ? this.multiLayer : this.singleLayer
+    const volumeRangeSlider = currentLayer.volume
+    const currentVolumeRangeSlider = this.state.rangeValue
+
+    const rangeIndex = volumeRangeSlider.findIndex(item => item === currentVolumeRangeSlider)
+
+    this.setState({
+      rangeValue: val,
+      rangeIndex: rangeIndex
+    })
+
+  }
+
+  setSalaryPerMonth(ev) {
+    const value = ev.target.value
+    let validValue = Number(value.replace(/[^0-9]/gim,''))
+
+    switch (true) {
+      case (validValue > 100000):
+        validValue = validValue.toString()
+        validValue = Number(validValue.substr(0, validValue.length - 1))
+        this.setState({isSalaryMaxLimit : true})
+        break
+      case (validValue === ""):
+        validValue = ""
+        break
+      default:
+        this.setState({isSalaryMaxLimit : false})
+        break
+    }
+
+    this.setState({salary: validValue})
+    return validValue
+  }
+
+  setPricePacking(ev) {
+    const value = ev.target.value
+    let validValue = Number(value.replace(/[^0-9]/gim,''))
+
+    if (value === "") validValue = ""
+
+    this.setState({packing: validValue})
+    return validValue
   }
 
   calcCapacity() {
@@ -67,6 +121,8 @@ export default class App extends Component {
     const productsPerDay =    capacityPerMinute * 60 * workingOursPerDay
     const productsPerMonth =  capacityPerMinute * 60 * workingOursPerDay * workingDaysPerMonth
 
+    this.productsPerMonth = productsPerMonth
+
     return ([
       { name: "Изделий в час:", value: productsPerHour },
       { name: "Изделий в день:", value: productsPerDay },
@@ -74,23 +130,116 @@ export default class App extends Component {
     ])
   }
 
-  calcCostPrice() {
+  calcReceipts() {
     const isMultiLayer = this.state.isMultiLayer
     const currentLayer = isMultiLayer ? this.multiLayer : this.singleLayer
+    const {capacityPerMinute, workingOursPerDay, workingDaysPerMonth} = currentLayer
+
+    const productsPerHour =   capacityPerMinute * 60
+    const productsPerDay =    capacityPerMinute * 60 * workingOursPerDay
+    const productsPerMonth =  capacityPerMinute * 60 * workingOursPerDay * workingDaysPerMonth
+
+    const receiptsPerItem = () => {
+      const rangeSliderIndex = this.state.rangeIndex
+      const pricePacking = currentLayer.pricePacking[rangeSliderIndex]
+      const pricePerItem = (this.state.packing !== "") ? this.state.packing : pricePacking
+      const result = pricePerItem - this.costPricePerItem
+
+      if (rangeSliderIndex < 0) return 0
+      this.receiptsPerItem = result
+
+      return result
+    }
+
+    const receiptsPerHour = () => {
+
+      return this.receiptsPerItem * productsPerHour
+    }
+
+    const receiptsPerDay = () => {
+
+      return this.receiptsPerItem * productsPerDay
+    }
+    const receiptsPerMonth = () => {
+
+      return this.receiptsPerItem * productsPerMonth
+    }
+
+    return ([
+      { name: "За штуку", value: receiptsPerItem() },
+      { name: "В час:", value: receiptsPerHour() },
+      { name: "В день:", value: receiptsPerDay() },
+      { name: "В месяц:", value: receiptsPerMonth() },
+    ])
+  }
+
+  calcCostPrice() {
+    const isMultiLayer = this.state.isMultiLayer
+    const isCardboard = this.state.isCardboard
+
+    const currentLayer = isMultiLayer ? this.multiLayer : this.singleLayer
+    const cardboardTypes = this.props.data.cardboardTypes
+
+    const costPricePerItem = () => {
+      const rawPerItemPrice = rawPerItem()
+      const printPrice = print()
+
+      return rawPerItemPrice + printPrice
+    }
+
+    const electricity = () => {
+      const electricityPrice = currentLayer.electricity
+      return electricityPrice / this.productsPerMonth
+    }
+
+    const salary = () => {
+      const salary = this.state.salary
+      const finalSalary = (salary !== "") ? salary : 40000
+
+      return finalSalary  / this.productsPerMonth
+    }
+
+    const print = () => {
+      const isPrint = this.state.isPrint
+      let printCostPerItem = currentLayer.printCostPerItem
+      let carveCostPerItem = currentLayer.carveCostPerItem
+      let provisionPerItem = currentLayer.provisionPerItem
+      const rangeSliderIndex = this.state.rangeIndex
+
+      if (rangeSliderIndex < 0) return 0
+
+      printCostPerItem = isPrint ? printCostPerItem[rangeSliderIndex] : 0
+      carveCostPerItem = carveCostPerItem[rangeSliderIndex]
+      provisionPerItem = provisionPerItem ? provisionPerItem[rangeSliderIndex] : 0
+
+      return printCostPerItem + carveCostPerItem + provisionPerItem
+    }
+
+    const rawPerItem = () => {
+      const rawPrice = isCardboard ? cardboardTypes[1].price : cardboardTypes[0].price
+      const currency = this.props.data.currency.eur
+      const rangeSliderIndex = this.state.rangeIndex
+
+      const itemsPerTon = currentLayer.itemsPerTon
+      return !(rangeSliderIndex < 0) ? rawPrice * 1.15 * currency / itemsPerTon[rangeSliderIndex] : 0
+    }
 
     const boxingPrice = () => {
+      const isMultiLayer = this.state.isMultiLayer
+      const currentLayer = isMultiLayer ? this.multiLayer : this.singleLayer
       const glue = Number(currentLayer.boxing.glue) ? Number(currentLayer.boxing.glue) : 0
       const price = Number(currentLayer.boxing.priceForItem) ? Number(currentLayer.boxing.priceForItem) : 0
 
       return (glue + price)
     }
+    this.costPricePerItem = costPricePerItem()
 
     return ([
-      { name: "За одно изделие", value: "" },
-      { name: "Электроэнергия", value: "" },
-      { name: "Зарплата", value: "" },
-      { name: "Печать", value: "" },
-      { name: "Сырье", value: "" },
+      { name: "За одно изделие", value: this.costPricePerItem },
+      { name: "Электроэнергия", value: electricity() },
+      { name: "Зарплата", value: salary() },
+      { name: "Печать", value: print() },
+      { name: "Сырье", value: rawPerItem() },
       { name: "Упаковка", value:  boxingPrice()},
     ])
   }
@@ -107,8 +256,8 @@ export default class App extends Component {
     const cardboardTypes = data.cardboardTypes
 
     const [...capacity] = this.calcCapacity()
-
     const [...costPrice] = this.calcCostPrice()
+    const [...receipts] = this.calcReceipts()
 
     return (
       <main>
@@ -133,8 +282,16 @@ export default class App extends Component {
             <legend>Картон:</legend>
             <label>
                 <input type="checkbox" name="type" onChange={value => this.setCardboard(value)} defaultChecked={isCardboard}/>
-                {isCardboard ? cardboardTypes[1] : cardboardTypes[0]}
+                {isCardboard ? cardboardTypes[1].name : cardboardTypes[0].name}
             </label>
+          </fieldset>
+          <fieldset>
+            <label>Зарплата оператора в месяц, руб.<input type="text" onChange={value => this.setSalaryPerMonth(value)} value={this.state.salary} /></label>
+            {this.state.isSalaryMaxLimit ? <p style={{color: "red"}}>Введите зачение от 0 до 100 000</p> : false}
+          </fieldset>
+          <fieldset>
+            <label>Стоимость упаковки из расчета за один стакан, руб.
+            <input type="text"  onChange={value => this.setPricePacking(value)} value={this.state.packing} /></label>
           </fieldset>
 
           <RangeSlider values = {this.getRangeSliderValues()} changeSelected={(val)=> {this.changeSelected(val)} } />
@@ -145,9 +302,26 @@ export default class App extends Component {
           <dl>
             {
               capacity.map((item, index) => {
+                const name = item.name
+                const value = this.prettify(Number(item.value))
                 return ([
-                  <dt key={`capacity-name-${index}`}>{item.name}</dt>,
-                  <dd key={`capacity-value-${index}`}>{item.value}</dd>
+                  <dt key={`capacity-name-${index}`}>{name}</dt>,
+                  <dd key={`capacity-value-${index}`}>{value}</dd>
+                ])
+              })
+            }
+          </dl>
+        </div>
+        <div>
+          <h3>Выручка, руб.</h3>
+          <dl>
+            {
+              receipts.map((item, index) => {
+                const name = item.name
+                const value = this.prettify(Number(item.value).toFixed(2))
+                return ([
+                  <dt key={`receipts-name-${index}`}>{name}</dt>,
+                  <dd key={`receipts-value-${index}`}>{value}</dd>
                 ])
               })
             }
@@ -158,9 +332,11 @@ export default class App extends Component {
           <dl>
             {
               costPrice.map((item, index) => {
+                const name = item.name
+                const value = Number(item.value).toFixed(4)
                 return ([
-                  <dt key={`costprice-name-${index}`}>{item.name}</dt>,
-                  <dd key={`costprice-value-${index}`}>{item.value}</dd>
+                  <dt key={`costprice-name-${index}`}>{name}</dt>,
+                  <dd key={`costprice-value-${index}`}>{value}</dd>
                 ])
               })
             }
