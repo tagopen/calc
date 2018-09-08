@@ -11,6 +11,110 @@ section.calc
       .col-24.col-md-16
         .calc__info.c-info
           .c-info__heading!=content.index.content.info.heading
-          .c-info__range
-            input#c-info__range(name='range-slider', value='', type='text')
-         
+          .row
+            .col-xs-24.col-lg-12.col-xl-10
+              .c-info__property
+                .c-info__title!=content.index.content.info.property1.name
+                .c-info__switch.switch
+                .switch__box
+                  input#checkbox1.switch__input(name='checkbox1', type='checkbox')
+                  label.switch__label.switch__label--1(for='checkbox1', data-off='off', data-on='on')!=content.index.content.info.property1.text1  
+                  label.switch__label.switch__label--2(for='checkbox1', data-off='off', data-on='on')!=content.index.content.info.property1.text2
+                
+            .col-xs-24.col-lg-12.col-xl-14  
+              .c-info__range
+                .c-info__title!=content.index.content.info.rangeTitle
+                input#c-info__range(name='range-slider', value='', type='text')
+          .row
+            .col-xs-24.col-sm-14.col-lg-11.col-xl-10
+              .c-info__property.c-info__property--border
+                .c-info__title!=content.index.content.info.property2.name
+                .c-info__switch.switch
+                .switch__box
+                  input#checkbox2.switch__input(name='checkbox2', type='checkbox', checked)
+                  label.switch__label.switch__label--1(for='checkbox2', data-off='off', data-on='on')!=content.index.content.info.property2.text1  
+                  label.switch__label.switch__label--2(for='checkbox2', data-off='off', data-on='on')!=content.index.content.info.property2.text2
+            .col-xs-24.col-sm-10.col-lg-10.col-xl-10
+              .c-info__property
+                .c-info__title!=content.index.content.info.property3.name    
+                .c-info__switch.switch
+                .switch__box
+                  input#checkbox3.switch__input(name='checkbox3', type='checkbox', checked)
+                  label.switch__label.switch__label--1(for='checkbox3', data-off='off', data-on='on')!=content.index.content.info.property3.text1  
+                  label.switch__label.switch__label--2(for='checkbox3', data-off='off', data-on='on')!=content.index.content.info.property3.text2
+          .row
+            .col-xs-24.col-sm-12
+              .c-info__char.c-char
+                .row
+                  .col-12
+                    .c-char__text!=content.index.content.info.char1
+                  .col-12     
+                    input.c-char__input
+            .col-xs-24.col-sm-12        
+              .c-info__char.c-char
+                .row
+                  .col-12
+                    .c-char__text!=content.index.content.info.char2
+                  .col-12 
+                    input.c-char__input
+  .container
+    .result                    
+      .row
+        .col-xs-24.col-md-12.col-xl-8.result__col.result__col--1
+          .result__box
+            .result__heading!=content.index.content.result.col1.heading
+            table.table.table-borderless.result__table
+              tbody
+                tr.result__row
+                  td.result__data.result__data--left Изделий в час:
+                  td.result__data.result__data--right 2 700
+                tr.result__row
+                  td.result__data.result__data--left Изделий в день:
+                  td.result__data.result__data--right 21 600
+                tr.result__row
+                  td.result__data.result__data--left.result__data--last Изделий в месяц:
+                  td.result__data.result__data--right.result__data--last 518 400
+            .result__heading.result__heading--small Хочу производить , шт. в месяц:
+            input.c-char__input.c-char__input--small 
+        .col-xs-24.col-md-12.col-xl-8.result__col.result__col--2
+          .result__box
+            .result__heading.result__heading--small!=content.index.content.result.col2.heading
+            table.table.table-borderless.result__table
+              tbody
+                tr.result__row
+                  td.result__data.result__data--left За штуку 
+                  td.result__data.result__data--right 2.83
+                tr.result__row
+                  td.result__data.result__data--left В час 
+                  td.result__data.result__data--right 2 339,82
+                tr.result__row
+                  td.result__data.result__data--left В день
+                  td.result__data.result__data--right 18 718,56
+                tr.result__row
+                  td.result__data.result__data--left.result__data--last В месяц
+                  td.result__data.result__data--right.result__data--last 449 245,43
+            .result__heading.result__heading--small Хочу выручкуу , руб. в месяц:
+            input.c-char__input.c-char__input--small       
+        .col-xs-24.col-md-24.col-xl-8.result__col.result__col--3
+          .result__box
+            .result__heading.result__heading--dark!=content.index.content.result.col3.heading
+            table.table.table-borderless.result__table
+              tbody
+                tr.result__row
+                  td.result__data.result__data--dark.result__data--left За одно изделие
+                  td.result__data.result__data--dark.result__data--right 2 700
+                tr.result__row
+                  td.result__data.result__data--dark.result__data--left Электроэнергия
+                  td.result__data.result__data--dark.result__data--right 21 600
+                tr.result__row
+                  td.result__data.result__data--dark.result__data--left Зарплата
+                  td.result__data.result__data--dark.result__data--right 21 600
+                tr.result__row
+                  td.result__data.result__data--dark.result__data--left Печать
+                  td.result__data.result__data--dark.result__data--right 21 600
+                tr.result__row
+                  td.result__data.result__data--dark.result__data--left Сырье
+                  td.result__data.result__data--dark.result__data--right 21 600      
+                tr.result__row
+                  td.result__data.result__data--dark.result__data--left.result__data--last Упаковка
+                  td.result__data.result__data--dark.result__data--right.result__data--last 518 400

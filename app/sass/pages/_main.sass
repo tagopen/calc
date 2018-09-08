@@ -92,7 +92,207 @@
     color: #e14758
     margin-bottom: 50px
 .c-info
+  &__range
+    margin-bottom: 25px
   &__heading  
     font: 700 24px/31px $font-roboto
     color: #e14758
     margin-bottom: 17px  
+    text-align: center
+  &__title
+    position: relative
+    font: 700 16px/22px $font-roboto
+    color: #000000
+    margin-bottom: 10px
+    text-align: center
+    z-index: 25
+  &__property
+    margin-bottom: 25px
+.switch
+  &__box
+    display: flex
+    justify-content: center !important
+  &__label
+    display: inline-block
+    color: #000
+    font: 700 16px/22px $font-helvetica
+    flex: 0 0 auto
+    cursor: pointer
+    &--1
+      order: -1
+  &__input
+    display: inline-block
+    margin: 0 10px
+    position: relative
+    appearance: none
+    outline: none
+    width: 41px
+    height: 21px
+    background-color: #e8e8e8
+    border-radius: 10px
+    transition-duration: 300ms
+    cursor: pointer
+    &:after 
+      content: '' 
+      position: absolute
+      top: 0
+      left: 1px
+      width: 20px
+      height: 20px
+      background-color: #e14758
+      border-radius: 50%
+      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16)
+      border: 2px solid #ffffff
+      transition-duration: 300ms
+    &:checked
+      &~.switch__label--2
+        color: #e14758
+        font: 700 16px/22px $font-pt-sans
+      &:after 
+        transition-duration: 300ms
+        left: 20px
+    &:not(:checked)  
+      &~.switch__label--1
+        color: #e14758
+        font: 700 16px/22px $font-pt-sans
+.c-char
+  margin-bottom: 15px
+  &__text
+    color: #000
+    font: 400 16px/22px $font-helvetica
+  &__input  
+    width: 90px
+    height: 48px
+    border-radius: 10px
+    border: 1px solid #c0c0c0
+    background-color: #ffffff
+    padding: 10px 15px
+    color: #000
+    font: 700 16px/22px $font-pt-sans
+    transition-duration: 300ms
+    &--small
+      display: block
+      margin: 0 auto
+      width: 200px
+    &:focus
+      border: 1px solid #e14758
+      transition-duration: 300ms
+.result
+  &__col
+    &--1
+      background-color: #356abc
+    &--2
+      background-color: #e14758
+    &--3    
+      background-color: #f6f4f4
+  &__box
+    padding: 30px 12px   
+  &__heading
+    margin-bottom: 15px
+    text-align: center
+    font: 700 20px/24px $font-roboto
+    color: #fff
+    &--dark
+      color: #000
+    &--small
+      font: 400 16px/31px $font-roboto
+    &--dark
+      color: #000  
+  &__data
+    color: #fff
+    padding: 0 10px 5px !important
+    &--dark
+      color: #000
+    &--last
+      padding-bottom: 0 !important
+    &--left
+      position: relative
+      font: 400 18px/24px $font-helvetica 
+      text-align: right
+      &:before
+        content: ''
+        position: absolute
+        display: inline-block
+        right: 0
+        top: 0
+        height: 100%
+        width: 1px
+        background: rgba(255,255,255,0.26)
+      &.result__data--dark
+        &:before
+          background: rgba(192,192,192,0.26) 
+    &--right  
+      font: 700 20px/24px $font-pt-sans
+      text-align: left
+.irs
+  margin-top: -27px     
++r(768)
+  .result
+    &__heading
+      font: 700 24px/31px $font-roboto
+      margin-bottom: 30px
+      &--small
+        font: 700 20px/24px $font-roboto
+        text-align: center
+        margin-bottom: 15px
+    &__data
+      padding: 0 10px 15px !important
+      &--last
+        padding-bottom: 0 !important
+      &--left
+        font: 400 20px/31px $font-helvetica 
+      &--right
+        font: 700 24px/31px $font-pt-sans
+  .c-info
+    &__title
+      text-align: left
+    &__heading
+      text-align: left
+    &__property
+      &--border
+        border-right: 1px solid rgba(112,112,112,0.27)     
+  .result
+    &__box
+      padding: 48px 28px  
+  .switch__box    
+    justify-content: start !important 
++r(992)
+  .c-char
+    &__input
+      width: 121px 
+      &--small
+        width: 200px
++r(1200)  
+  .c-char
+    margin-bottom: 0       
+.irs-slider
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16) !important
+  border: 2px solid #ffffff !important
+  background: #e14758 !important
+.irs-line
+  border: 0
+  background: #e8e8e8
+  box-shadow: none  
+.irs-bar
+  background: #e8e8e8
+  border: 0
+.irs-bar-edge
+  border: 0 
+  background: #e8e8e8
+.irs-line-left, 
+.irs-line-mid, 
+.irs-line-right  
+  background: #e8e8e8
+  border: 0
+.irs-single
+  display: none
+.irs-grid-text
+  color: rgba(53, 53, 53, 0.93)
+  font: 400 12px/14px $font-pt-sans
+  bottom: 0
+.irs-grid-pol.small
+  display: none
+.irs-grid-pol
+  opacity: 1
+  background: #707070  
+  top: -5px
