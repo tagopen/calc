@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import $ from 'jquery'
+import 'ion-rangeslider/js/ion.rangeSlider.min.js'
 
 export default class RangeSlider extends Component {
   constructor(props) {
@@ -11,9 +13,10 @@ export default class RangeSlider extends Component {
     }
   }
 
-  handleChange(ev) {
-    const value = Number(ev.target.value)
+  handleChange(val) {
+    const value = Number(val)
     this.props.changeSelected(value)
+    console.log(value)
 
     this.setState({
       rangeSlider: { 
@@ -22,27 +25,31 @@ export default class RangeSlider extends Component {
     })
   }
 
+  componentDidMount(){
+    this.initRangeSlider()
+  }
+
+  initRangeSlider() {
+    $(this.refs.rangeslider).ionRangeSlider({
+      type: 'single',
+      grid: true,
+      values: this.props.values,
+      hide_min_max: true,
+      onChange: data => this.handleChange(data.from_value)
+    })
+  }
+
   render() {
-    const {value} = this.state.rangeSlider
-    const defaultValues = this.props.values
-    const min = defaultValues[0]
-    const max = defaultValues[defaultValues.length - 1]
 
     return (
-        <div>
-        <input
-          type="range"
-          min={min}
-          max={max}
-          value={value}
-          onChange={value => this.handleChange(value)} list="tickmarks"/>
-        <datalist id="tickmarks">
-          {defaultValues.map((item) =>
-              <option value={item} key={`value-${item}`} label={item} />
-          )}
-        </datalist>
-        <span>{value}</span>
-      </div>
+      <input
+        id="c-info__range"
+        name="range-slider"
+        className="sr-only"
+        tabIndex="-1"
+        type="text"
+        ref='rangeslider'
+        />
     )
   }
 }

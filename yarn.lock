@@ -3328,6 +3328,12 @@ invert-kv@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/invert-kv/-/invert-kv-1.0.0.tgz#104a8e4aaca6d3d8cd157a8ef8bfab2d7a3ffdb6"
 
+ion-rangeslider@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/ion-rangeslider/-/ion-rangeslider-2.2.0.tgz#388f12cd70593a61b3368fad6c4f30a5da8b97c9"
+  dependencies:
+    jquery ">=1.8"
+
 ip@^1.1.0, ip@^1.1.5:
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/ip/-/ip-1.1.5.tgz#bdded70114290828c0a039e72ef25f5aaec4354a"
@@ -3900,6 +3906,10 @@ jest@20.0.4:
   resolved "https://registry.yarnpkg.com/jest/-/jest-20.0.4.tgz#3dd260c2989d6dad678b1e9cc4d91944f6d602ac"
   dependencies:
     jest-cli "^20.0.4"
+
+jquery@>=1.8, jquery@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.3.1.tgz#958ce29e81c9790f31be7792df5d4d95fc57fbca"
 
 js-base64@^2.1.9:
   version "2.4.9"

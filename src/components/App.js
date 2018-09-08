@@ -18,7 +18,10 @@ export default class App extends Component {
         rangeValue: 0,
         salary: "",
         packing: "",
+        waitProduce: "",
+        waitEarn: "",
         isSalaryMaxLimit: false,
+        isPackingMaxLimit: false,
         rangeIndex: 0
     }
 
@@ -65,6 +68,13 @@ export default class App extends Component {
     return isMultiLayer ? this.multiLayer.volume : this.singleLayer.volume
   }
 
+  resetValues() {
+    this.setState({
+      waitProduce: "",
+      waitEarn: ""
+    })
+  }
+
   changeSelected(val) {
     const isMultiLayer = this.state.isMultiLayer
     const currentLayer = isMultiLayer ? this.multiLayer : this.singleLayer
@@ -90,8 +100,9 @@ export default class App extends Component {
         validValue = Number(validValue.substr(0, validValue.length - 1))
         this.setState({isSalaryMaxLimit : true})
         break
-      case (validValue === ""):
+      case (value === ""):
         validValue = ""
+        this.setState({isSalaryMaxLimit : false})
         break
       default:
         this.setState({isSalaryMaxLimit : false})
@@ -99,16 +110,60 @@ export default class App extends Component {
     }
 
     this.setState({salary: validValue})
-    return validValue
+    this.resetValues()
+    return value!=="" ? validValue : 40000
   }
 
   setPricePacking(ev) {
     const value = ev.target.value
     let validValue = Number(value.replace(/[^0-9]/gim,''))
 
-    if (value === "") validValue = ""
+    switch (true) {
+      case (validValue > 10):
+        validValue = validValue.toString()
+        validValue = Number(validValue.substr(0, validValue.length - 1))
+        this.setState({isPackingMaxLimit : true})
+        break
+      case (value === "") :
+        validValue = ""
+        this.setState({isSalaryMaxLimit : false})
+        break
+      default:
+        this.setState({isPackingMaxLimit : false})
+        break
+    }
 
     this.setState({packing: validValue})
+    this.resetValues()
+    return value!=="" ? validValue : 40000
+  }
+
+  waitEarn(ev) {
+    const value = ev.target.value
+    let validValue = Number(value.replace(/[^0-9]/gim,''))
+
+    let waitProduce = validValue * this.productsPerMonth / this.receiptsPerMonth
+   
+    waitProduce = waitProduce.toFixed(0)
+
+    this.setState({
+      waitEarn: validValue,
+      waitProduce: waitProduce,
+    })
+    return validValue
+  }
+
+  waitProduce(ev) {
+    const value = ev.target.value
+    let validValue = Number(value.replace(/[^0-9]/gim,''))
+
+    let waitEarn = validValue * this.receiptsPerMonth / this.productsPerMonth
+    waitEarn = waitEarn.toFixed(0)
+
+    this.setState({
+      waitProduce: validValue,
+      waitEarn: waitEarn,
+    })
     return validValue
   }
 
@@ -124,9 +179,9 @@ export default class App extends Component {
     this.productsPerMonth = productsPerMonth
 
     return ([
-      { name: "Изделий в час:", value: productsPerHour },
-      { name: "Изделий в день:", value: productsPerDay },
-      { name: "Изделий в месяц:", value: productsPerMonth },
+      { name: "Изделий в час", value: productsPerHour },
+      { name: "Изделий в день", value: productsPerDay },
+      { name: "Изделий в месяц", value: productsPerMonth },
     ])
   }
 
@@ -161,15 +216,16 @@ export default class App extends Component {
       return this.receiptsPerItem * productsPerDay
     }
     const receiptsPerMonth = () => {
-
-      return this.receiptsPerItem * productsPerMonth
+      const result = this.receiptsPerItem * productsPerMonth
+      this.receiptsPerMonth = result
+      return result
     }
 
     return ([
       { name: "За штуку", value: receiptsPerItem() },
-      { name: "В час:", value: receiptsPerHour() },
-      { name: "В день:", value: receiptsPerDay() },
-      { name: "В месяц:", value: receiptsPerMonth() },
+      { name: "В час", value: receiptsPerHour() },
+      { name: "В день", value: receiptsPerDay() },
+      { name: "В месяц", value: receiptsPerMonth() },
     ])
   }
 
@@ -260,89 +316,289 @@ export default class App extends Component {
     const [...receipts] = this.calcReceipts()
 
     return (
-      <main>
-        <form className="calculator">
-          <fieldset>
-            <legend>Плотность бумаги</legend>
-            <label>
-                <input type="checkbox" onChange={value => this.setNumbersOfLayers(value)} name="layers" defaultChecked={isMultiLayer}/>
-                {isMultiLayer ? this.multiLayer.type : this.singleLayer.type}
-            </label>
-          </fieldset>
+      <section className="calc">
+        <div className="container">
+          <div className="row">
+            <div className="col-24 text-center">
+              <h2 className="calc__heading">РАСЧЕТ СЕБЕСТОИМОСТИ</h2>
+              <p className="calc__subheading">
+                ПРОИЗВОДСТВА БУМАЖНЫХ СТАКАНОВ
+              </p>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-24 col-md-8">
+              <div className="calc__picture">
+                <img
+                  className="calc__img img-fluid"
+                  src="img/s1.png"
+                  alt="стакан"
+                />
+              </div>
+            </div>
+            <div className="col-24 col-md-16">
+              <div className="calc__info c-info">
+                <div className="c-info__heading">Характеристики:</div>
+                <div className="row">
+                  <div className="col-xs-24 col-lg-12 col-xl-10">
+                    <div className="c-info__property">
+                      <div className="c-info__title">Плотность бумаги:</div>
+                      <div className="c-info__switch switch" />
+                      <div className="switch__box">
+                        <input
+                          className="switch__input"
+                          id="checkbox1"
+                          name="checkbox1"
+                          type="checkbox"
+                          onChange={value => this.setNumbersOfLayers(value)}
+                          defaultChecked={isMultiLayer}
+                        />
+                        <label
+                          className="switch__label switch__label--1"
+                          htmlFor="checkbox1"
+                        >
+                          Однослойные
+                        </label>
+                        <label
+                          className="switch__label switch__label--2"
+                          htmlFor="checkbox1"
+                        >
+                          Двухслойные
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-xs-24 col-lg-12 col-xl-14">
+                    <div className="c-info__range">
+                      <div className="c-info__title">
+                        Объем стаканов, мл:
+                      </div>
+                      <RangeSlider 
+                        values = {this.getRangeSliderValues()} 
+                        changeSelected={(val)=> {this.changeSelected(val)} } 
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-xs-24 col-sm-14 col-lg-11 col-xl-10">
+                    <div className="c-info__property c-info__property--border">
+                      <div className="c-info__title">Тип печати:</div>
+                      <div className="c-info__switch switch" />
+                      <div className="switch__box">
+                        <input
+                          className="switch__input"
+                          id="checkbox2"
+                          name="checkbox2"
+                          type="checkbox"
+                          onChange={value => this.setPrintTypes(value)}
+                          defaultChecked={isPrint}
+                        />
+                        <label
+                          className="switch__label switch__label--1"
+                          htmlFor="checkbox2"
+                          data-off="off"
+                          data-on="on"
+                        >
+                          Без печати
+                        </label>
+                        <label
+                          className="switch__label switch__label--2"
+                          htmlFor="checkbox2"
+                          data-off="off"
+                          data-on="on"
+                        >
+                          Подрядчик
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-xs-24 col-sm-10 col-lg-10 col-xl-10">
+                    <div className="c-info__property">
+                      <div className="c-info__title">Картон:</div>
+                      <div className="c-info__switch switch" />
+                      <div className="switch__box">
+                        <input
+                          className="switch__input"
+                          id="checkbox3"
+                          name="checkbox3"
+                          type="checkbox"
+                          onChange={value => this.setCardboard(value)} 
+                          defaultChecked={isCardboard}
+                        />
+                        <label
+                          className="switch__label switch__label--1"
+                          htmlFor="checkbox3"
+                          data-off="off"
+                          data-on="on"
+                        >
+                          Китай
+                        </label>
+                        <label
+                          className="switch__label switch__label--2"
+                          htmlFor="checkbox3"
+                          data-off="off"
+                          data-on="on"
+                        >
+                          Европа
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-xs-24 col-sm-12">
+                    <div className="c-info__char c-char">
+                      <div className="row">
+                        <div className="col-12">
+                          <div className="c-char__text">
+                            Зарплата оператора в месяц, руб
+                          </div>
+                        </div>
+                        <div className="col-12">
+                          <input 
+                            className="c-char__input" 
+                            type="text" 
+                            onChange={value => this.setSalaryPerMonth(value)} 
+                            value={this.state.salary}
+                          />
+                          {
+                            this.state.isSalaryMaxLimit ? 
+                              <p style={{color: "red"}}>Введите зачение от 0 до 100 000</p> : 
+                              false
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-xs-24 col-sm-12">
+                    <div className="c-info__char c-char">
+                      <div className="row">
+                        <div className="col-12">
+                          <div className="c-char__text">
+                            Цена 1 стакана при продаже, руб
+                          </div>
+                        </div>
+                        <div className="col-12">
+                          <input 
+                            className="c-char__input" 
+                            type="text" 
+                            onChange={value => this.setPricePacking(value)} 
+                            value={this.state.packing}
+                          />
 
-          <fieldset>
-            <legend>Тип печати:</legend>
-            <label>
-                <input type="checkbox" name="print" onChange={value => this.setPrintTypes(value)} defaultChecked={isPrint}/>
-                {isPrint ? printTypes[1] : printTypes[0]}
-            </label>
-          </fieldset>
+                          {
+                            this.state.isPackingMaxLimit ? 
+                              <p style={{color: "red"}}>Введите зачение от 0 до 10</p> : 
+                              false
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="container">
+          <div className="result">
+            <div className="row">
+              <div className="col-xs-24 col-md-12 col-xl-8 result__col result__col--1">
+                <div className="result__box">
+                  <div className="result__heading">
+                    Производительность,{" "}
+                    <span className="result__heading--small">шт:</span>
+                  </div>
+                  <table className="table table-borderless result__table">
+                    <tbody>
+                      {
+                        capacity.map((item, index) => {
+                          const name = item.name
+                          const value = this.prettify(Number(item.value))
+                          return (
+                            <tr className="result__row" key={`capacity-${index}`}>
+                              <td className="result__data result__data--left">{name}</td>
+                              <td className="result__data result__data--right">{value}</td>
+                            </tr>
+                          )
+                        })
+                      }
+                    </tbody>
+                  </table>
+                  <div className="result__heading result__heading--small">
+                    Хочу производить , шт. в месяц:
+                  </div>
+                  <input 
+                    className="c-char__input c-char__input--small" 
+                    type="text" 
+                    onChange={value => this.waitProduce(value)} 
+                    value={this.state.waitProduce}
+                  />
+                </div>
+              </div>
+              <div className="col-xs-24 col-md-12 col-xl-8 result__col result__col--2">
+                <div className="result__box">
+                  <div className="result__heading result__heading--small">
+                    Выручка,{" "}
+                    <span className="result__heading--small">руб</span>
+                  </div>
+                  <table className="table table-borderless result__table">
+                    <tbody>
+                      {
+                        receipts.map((item, index) => {
+                          const name = item.name
+                          const value = this.prettify(Number(item.value).toFixed(2))
+                          return (
+                            <tr className="result__row" key={`receipts-${index}`}>
+                              <td className="result__data result__data--left">{name}</td>
+                              <td className="result__data result__data--right">{value}</td>
+                            </tr>
+                          )
+                        })
+                      }
+                    </tbody>
+                  </table>
+                  <div className="result__heading result__heading--small">
+                    Хочу выручку, руб. в месяц:
+                  </div>
+                  <input 
+                    className="c-char__input c-char__input--small" 
+                    type="text" 
+                    onChange={value => this.waitEarn(value)} 
+                    value={this.state.waitEarn}
+                  />
+                </div>
+              </div>
+              <div className="col-xs-24 col-md-24 col-xl-8 result__col result__col--3">
+                <div className="result__box">
+                  <div className="result__heading result__heading--dark">
+                    Себестоимость изделия,{" "}
+                    <span className="result__heading--small">руб</span>
+                  </div>
+                  <table className="table table-borderless result__table">
+                    <tbody>
+                      {
+                        costPrice.map((item, index) => {
+                          const name = item.name
+                          const value = Number(item.value).toFixed(4)
+                          return (
+                            <tr className="result__row" key={`costprice-${index}`}>
+                              <td className="result__data result__data--dark result__data--left">{name}</td>
+                              <td className="result__data result__data--dark result__data--right">{value}</td>
+                            </tr>
+                          )
+                        })
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
-          <fieldset>
-            <legend>Картон:</legend>
-            <label>
-                <input type="checkbox" name="type" onChange={value => this.setCardboard(value)} defaultChecked={isCardboard}/>
-                {isCardboard ? cardboardTypes[1].name : cardboardTypes[0].name}
-            </label>
-          </fieldset>
-          <fieldset>
-            <label>Зарплата оператора в месяц, руб.<input type="text" onChange={value => this.setSalaryPerMonth(value)} value={this.state.salary} /></label>
-            {this.state.isSalaryMaxLimit ? <p style={{color: "red"}}>Введите зачение от 0 до 100 000</p> : false}
-          </fieldset>
-          <fieldset>
-            <label>Стоимость упаковки из расчета за один стакан, руб.
-            <input type="text"  onChange={value => this.setPricePacking(value)} value={this.state.packing} /></label>
-          </fieldset>
-
-          <RangeSlider values = {this.getRangeSliderValues()} changeSelected={(val)=> {this.changeSelected(val)} } />
-          {this.state.isMultiLayer}
-        </form>
-        <div>
-          <h3>Производительность, шт.</h3>
-          <dl>
-            {
-              capacity.map((item, index) => {
-                const name = item.name
-                const value = this.prettify(Number(item.value))
-                return ([
-                  <dt key={`capacity-name-${index}`}>{name}</dt>,
-                  <dd key={`capacity-value-${index}`}>{value}</dd>
-                ])
-              })
-            }
-          </dl>
-        </div>
-        <div>
-          <h3>Выручка, руб.</h3>
-          <dl>
-            {
-              receipts.map((item, index) => {
-                const name = item.name
-                const value = this.prettify(Number(item.value).toFixed(2))
-                return ([
-                  <dt key={`receipts-name-${index}`}>{name}</dt>,
-                  <dd key={`receipts-value-${index}`}>{value}</dd>
-                ])
-              })
-            }
-          </dl>
-        </div>
-        <div>
-          <h3>Себестоимость изделия, руб.</h3>
-          <dl>
-            {
-              costPrice.map((item, index) => {
-                const name = item.name
-                const value = Number(item.value).toFixed(4)
-                return ([
-                  <dt key={`costprice-name-${index}`}>{name}</dt>,
-                  <dd key={`costprice-value-${index}`}>{value}</dd>
-                ])
-              })
-            }
-          </dl>
-        </div>
-      </main>
     )
   }
 }
