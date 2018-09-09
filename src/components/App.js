@@ -92,7 +92,7 @@ export default class App extends Component {
 
   setSalaryPerMonth(ev) {
     const value = ev.target.value
-    let validValue = Number(value.replace(/[^0-9]/gim,''))
+    let validValue = Number(value.replace(/[^0-9.,]/gim,''))
 
     switch (true) {
       case (validValue > 100000):
@@ -116,11 +116,16 @@ export default class App extends Component {
 
   setPricePacking(ev) {
     const value = ev.target.value
-    let validValue = Number(value.replace(/[^0-9]/gim,''))
+    const rangeSliderIndex = this.state.rangeIndex
+    const currentLayer = this.state.isMultiLayer ? this.multiLayer : this.singleLayer
+    const pricePacking = currentLayer.pricePacking[rangeSliderIndex]
+    let validValue = value.replace(/[^0-9\.]/g,'')
+
+    if (validValue.split('.').length > 2)
+      validValue = validValue.replace(/\.+$/,"")
 
     switch (true) {
-      case (validValue > 10):
-        validValue = validValue.toString()
+      case (validValue > 100):
         validValue = Number(validValue.substr(0, validValue.length - 1))
         this.setState({isPackingMaxLimit : true})
         break
@@ -130,12 +135,13 @@ export default class App extends Component {
         break
       default:
         this.setState({isPackingMaxLimit : false})
+        validValue = validValue
         break
     }
 
     this.setState({packing: validValue})
     this.resetValues()
-    return value!=="" ? validValue : 40000
+    return value!=="" ? validValue : pricePacking
   }
 
   waitEarn(ev) {
