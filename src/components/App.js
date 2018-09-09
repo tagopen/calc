@@ -194,11 +194,21 @@ export default class App extends Component {
     const productsPerDay =    capacityPerMinute * 60 * workingOursPerDay
     const productsPerMonth =  capacityPerMinute * 60 * workingOursPerDay * workingDaysPerMonth
 
+
+    const salary = () => {
+      const salary = this.state.salary
+      const finalSalary = (salary !== "") ? salary : 40000
+
+      return finalSalary
+    }
+
+    const salaryPrice = salary()
+
     const receiptsPerItem = () => {
       const rangeSliderIndex = this.state.rangeIndex
       const pricePacking = currentLayer.pricePacking[rangeSliderIndex]
       const pricePerItem = (this.state.packing !== "") ? this.state.packing : pricePacking
-      const result = pricePerItem - this.costPricePerItem
+      const result = pricePerItem - this.costPricePerItem - salaryPrice / workingDaysPerMonth / workingOursPerDay / productsPerHour
 
       if (rangeSliderIndex < 0) return 0
       this.receiptsPerItem = result
@@ -208,15 +218,15 @@ export default class App extends Component {
 
     const receiptsPerHour = () => {
 
-      return this.receiptsPerItem * productsPerHour
+      return this.receiptsPerItem * productsPerHour - salaryPrice / workingDaysPerMonth / workingOursPerDay
     }
 
     const receiptsPerDay = () => {
 
-      return this.receiptsPerItem * productsPerDay
+      return this.receiptsPerItem * productsPerDay - salaryPrice / workingDaysPerMonth
     }
     const receiptsPerMonth = () => {
-      const result = this.receiptsPerItem * productsPerMonth
+      const result = this.receiptsPerItem * productsPerMonth - salaryPrice
       this.receiptsPerMonth = result
       return result
     }
