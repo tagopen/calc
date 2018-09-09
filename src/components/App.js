@@ -484,7 +484,7 @@ export default class App extends Component {
 
                           {
                             this.state.isPackingMaxLimit ? 
-                              <p style={{color: "red"}}>Введите зачение от 0 до 10</p> : 
+                              <p style={{color: "red"}}>Введите зачение от 0 до 100</p> : 
                               false
                           }
                         </div>
