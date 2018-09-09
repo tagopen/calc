@@ -194,15 +194,7 @@ export default class App extends Component {
     const productsPerDay =    capacityPerMinute * 60 * workingOursPerDay
     const productsPerMonth =  capacityPerMinute * 60 * workingOursPerDay * workingDaysPerMonth
 
-
-    const salary = () => {
-      const salary = this.state.salary
-      const finalSalary = (salary !== "") ? salary : 40000
-
-      return finalSalary
-    }
-
-    const salaryPrice = salary()
+    const salaryPrice = (this.state.salary !== "") ? this.state.salary : 40000
 
     const receiptsPerItem = () => {
       const rangeSliderIndex = this.state.rangeIndex
@@ -218,18 +210,18 @@ export default class App extends Component {
 
     const receiptsPerHour = () => {
 
-      return this.receiptsPerItem * productsPerHour - salaryPrice / workingDaysPerMonth / workingOursPerDay
+      return this.receiptsPerItem * productsPerHour
     }
 
     const receiptsPerDay = () => {
 
-      return this.receiptsPerItem * productsPerDay - salaryPrice / workingDaysPerMonth
+      return this.receiptsPerItem * productsPerDay
     }
     const receiptsPerMonth = () => {
-      const result = this.receiptsPerItem * productsPerMonth - salaryPrice
-      this.receiptsPerMonth = result
+      const result = this.receiptsPerItem * productsPerMonth
+      this.receiptsPerMonth = result 
       return result
-    }
+    } 
 
     return ([
       { name: "За штуку", value: receiptsPerItem() },
