@@ -306,11 +306,6 @@ export default class App extends Component {
     const isPrint = this.state.isPrint
     const isCardboard = this.state.isCardboard
 
-    const data = this.props.data
-
-    const printTypes = data.printTypes
-    const cardboardTypes = data.cardboardTypes
-
     const [...capacity] = this.calcCapacity()
     const [...costPrice] = this.calcCostPrice()
     const [...receipts] = this.calcReceipts()
@@ -328,13 +323,13 @@ export default class App extends Component {
           </div>
           <div className="row">
             <div className="col-24 col-md-8">
-              <div className="calc__picture">
+              <figure className="calc__picture" style={{transform: `scale(1.${this.state.rangeIndex})`}}>
                 <img
                   className="calc__img img-fluid"
-                  src="img/s1.png"
+                  src={this.state.isPrint ? "/img/s1.png" : "/img/s2.png"}
                   alt="стакан"
                 />
-              </div>
+              </figure>
             </div>
             <div className="col-24 col-md-16">
               <div className="calc__info c-info">
@@ -397,16 +392,12 @@ export default class App extends Component {
                         <label
                           className="switch__label switch__label--1"
                           htmlFor="checkbox2"
-                          data-off="off"
-                          data-on="on"
                         >
                           Без печати
                         </label>
                         <label
                           className="switch__label switch__label--2"
                           htmlFor="checkbox2"
-                          data-off="off"
-                          data-on="on"
                         >
                           Подрядчик
                         </label>
@@ -429,16 +420,12 @@ export default class App extends Component {
                         <label
                           className="switch__label switch__label--1"
                           htmlFor="checkbox3"
-                          data-off="off"
-                          data-on="on"
                         >
                           Китай
                         </label>
                         <label
                           className="switch__label switch__label--2"
                           htmlFor="checkbox3"
-                          data-off="off"
-                          data-on="on"
                         >
                           Европа
                         </label>
