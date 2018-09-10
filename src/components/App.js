@@ -22,7 +22,7 @@ export default class App extends Component {
         waitEarn: "",
         isSalaryMaxLimit: false,
         isPackingMaxLimit: false,
-        rangeIndex: 0
+        rangeIndex: 0,
     }
 
     this.setCapacityPerMonth(this.singleLayer)
@@ -225,7 +225,7 @@ export default class App extends Component {
     }
     const receiptsPerMonth = () => {
       const result = this.receiptsPerItem * productsPerMonth
-      this.receiptsPerMonth = result 
+      this.receiptsPerMonth = result
       return result
     } 
 
@@ -296,13 +296,31 @@ export default class App extends Component {
 
       return (glue + price)
     }
+
+    const printCostPerItem = () => {
+      const printCostPerItem = currentLayer.printCostPerItem
+      const rangeSliderIndex = this.state.rangeIndex
+      if (rangeSliderIndex < 0) return 0
+        
+      return printCostPerItem[rangeSliderIndex]
+    }
+
+    const carveCostPerItem = () => {
+      const carveCostPerItem = currentLayer.carveCostPerItem
+      const rangeSliderIndex = this.state.rangeIndex
+      if (rangeSliderIndex < 0) return 0
+        
+      return carveCostPerItem[rangeSliderIndex]
+    }
+
     this.costPricePerItem = costPricePerItem()
 
     return ([
       { name: "За одно изделие", value: this.costPricePerItem },
       { name: "Электроэнергия", value: electricity() },
       { name: "Зарплата", value: salary() },
-      { name: "Печать", value: print() },
+      { name: "Печать", value: printCostPerItem() },
+      { name: "Высечка", value: carveCostPerItem() },
       { name: "Сырье", value: rawPerItem() },
       { name: "Упаковка", value:  boxingPrice()},
     ])
@@ -459,7 +477,7 @@ export default class App extends Component {
                           />
                           {
                             this.state.isSalaryMaxLimit ? 
-                              <p style={{color: "red"}}>Введите зачение от 0 до 100 000</p> : 
+                              <p className="c-char__text" style={{color: "#e14758"}}>Введите зачение от 0 до 100 000</p> : 
                               false
                           }
                         </div>
@@ -484,13 +502,18 @@ export default class App extends Component {
 
                           {
                             this.state.isPackingMaxLimit ? 
-                              <p style={{color: "red"}}>Введите зачение от 0 до 100</p> : 
+                              <p className="c-char__text" style={{color: "#e14758"}}>Введите зачение от 0 до 100</p> : 
                               false
                           }
                         </div>
                       </div>
                     </div>
                   </div>
+                  { 
+                    (this.receiptsPerMonth <= 0) ?
+                      <div className="col-24 mt-3 text-center"><p className="c-char__text" style={{color: "#e14758"}}>Производство не рентабельно, увеличьте цену за 1 стакан</p></div> :
+                      false
+                  }
                 </div>
               </div>
             </div>
