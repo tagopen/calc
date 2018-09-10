@@ -222,15 +222,20 @@
         &:before
           background: rgba(192,192,192,0.26) 
     &--right  
-      font: 700 20px/24px $font-pt-sans
       text-align: left
 .irs
   margin-top: -27px     
 +r(768)
   .result
+    &__box
+      display: flex
+      flex-direction: column
+      height: 100%
     &__heading
       font: 700 24px/31px $font-roboto
       margin-bottom: 30px
+      &--margin
+        margin-top: auto
       &--small
         font: 700 20px/24px $font-roboto
         text-align: center
@@ -240,9 +245,9 @@
       &--last
         padding-bottom: 0 !important
       &--left
-        font: 400 20px/31px $font-helvetica 
+        font: 400 19px/31px $font-helvetica 
       &--right
-        font: 700 24px/31px $font-pt-sans
+        font: 700 20px/31px $font-pt-sans
   .c-info
     &__title
       text-align: left
@@ -290,6 +295,8 @@
   color: rgba(53, 53, 53, 0.93)
   font: 400 12px/14px $font-pt-sans
   bottom: 0
+  &:after
+    content: ' мл'
 .irs-grid-pol.small
   display: none
 .irs-grid-pol
