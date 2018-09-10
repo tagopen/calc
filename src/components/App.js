@@ -185,9 +185,9 @@ export default class App extends Component {
     this.productsPerMonth = productsPerMonth
 
     return ([
-      { name: "Изделий в час", value: productsPerHour },
-      { name: "Изделий в день", value: productsPerDay },
-      { name: "Изделий в месяц", value: productsPerMonth },
+      { name: "Стаканов в час", value: productsPerHour },
+      { name: "Стаканов в день", value: productsPerDay },
+      { name: "Стаканов в месяц", value: productsPerMonth },
     ])
   }
 
@@ -392,7 +392,7 @@ export default class App extends Component {
                   <div className="col-xs-24 col-lg-12 col-xl-14">
                     <div className="c-info__range">
                       <div className="c-info__title">
-                        Объем стаканов, мл:
+                        Объем стакана:
                       </div>
                       <RangeSlider 
                         values = {this.getRangeSliderValues()} 
@@ -544,8 +544,8 @@ export default class App extends Component {
                       }
                     </tbody>
                   </table>
-                  <div className="result__heading result__heading--small">
-                    Хочу производить , шт. в месяц:
+                  <div className="result__heading result__heading--small result__heading--margin">
+                    Буду производить/Надо произвести, шт. в месяц:
                   </div>
                   <input 
                     className="c-char__input c-char__input--small" 
@@ -557,7 +557,7 @@ export default class App extends Component {
               </div>
               <div className="col-xs-24 col-md-12 col-xl-8 result__col result__col--2">
                 <div className="result__box">
-                  <div className="result__heading result__heading--small">
+                  <div className="result__heading">
                     Выручка,{" "}
                     <span className="result__heading--small">руб</span>
                   </div>
@@ -577,8 +577,8 @@ export default class App extends Component {
                       }
                     </tbody>
                   </table>
-                  <div className="result__heading result__heading--small">
-                    Хочу выручку, руб. в месяц:
+                  <div className="result__heading result__heading--small result__heading--margin">
+                    Хочу прибыль, руб. в месяц:
                   </div>
                   <input 
                     className="c-char__input c-char__input--small" 
