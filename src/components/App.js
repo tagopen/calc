@@ -489,7 +489,7 @@ export default class App extends Component {
                       <div className="row">
                         <div className="col-12">
                           <div className="c-char__text">
-                            Цена 1 стакана при продаже, руб
+                            Продажная цена 1 стакана
                           </div>
                         </div>
                         <div className="col-12">
