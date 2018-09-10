@@ -298,11 +298,14 @@ export default class App extends Component {
     }
 
     const printCostPerItem = () => {
-      const printCostPerItem = currentLayer.printCostPerItem
       const rangeSliderIndex = this.state.rangeIndex
+      let printCostPerItem = currentLayer.printCostPerItem
       if (rangeSliderIndex < 0) return 0
+
+      printCostPerItem = this.state.isPrint ? printCostPerItem[rangeSliderIndex] : 0
+
         
-      return printCostPerItem[rangeSliderIndex]
+      return printCostPerItem
     }
 
     const carveCostPerItem = () => {
