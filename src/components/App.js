@@ -567,7 +567,7 @@ export default class App extends Component {
                       {
                         receipts.map((item, index) => {
                           const name = item.name
-                          const value = this.prettify(Number(item.value).toFixed(2))
+                          const value = this.prettify(Number(item.value).toFixed(0))
                           return (
                             <tr className="result__row" key={`receipts-${index}`}>
                               <td className="result__data result__data--left">{name}</td>
