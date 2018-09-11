@@ -176,7 +176,7 @@ export default class App extends Component {
   calcCapacity() {
     const isMultiLayer = this.state.isMultiLayer
     const {capacityPerMinute, workingOursPerDay, workingDaysPerMonth} = isMultiLayer ? this.multiLayer : this.singleLayer
-
+    const capacityText = this.props.data.capacityText
 
     const productsPerHour =   capacityPerMinute * 60
     const productsPerDay =    capacityPerMinute * 60 * workingOursPerDay
@@ -185,9 +185,9 @@ export default class App extends Component {
     this.productsPerMonth = productsPerMonth
 
     return ([
-      { name: "Стаканов в час", value: productsPerHour },
-      { name: "Стаканов в день", value: productsPerDay },
-      { name: "Стаканов в месяц", value: productsPerMonth },
+      { name: capacityText[0], value: productsPerHour },
+      { name: capacityText[1], value: productsPerDay },
+      { name: capacityText[2], value: productsPerMonth },
     ])
   }
 
@@ -195,6 +195,8 @@ export default class App extends Component {
     const isMultiLayer = this.state.isMultiLayer
     const currentLayer = isMultiLayer ? this.multiLayer : this.singleLayer
     const {capacityPerMinute, workingOursPerDay, workingDaysPerMonth} = currentLayer
+
+    const receiptsText = this.props.data.receiptsText
 
     const productsPerHour =   capacityPerMinute * 60
     const productsPerDay =    capacityPerMinute * 60 * workingOursPerDay
@@ -228,16 +230,18 @@ export default class App extends Component {
     } 
 
     return ([
-      { name: "За штуку", value: receiptsPerItem() },
-      { name: "В час", value: receiptsPerHour() },
-      { name: "В день", value: receiptsPerDay() },
-      { name: "В месяц", value: receiptsPerMonth() },
+      { name: receiptsText[0], value: receiptsPerItem() },
+      { name: receiptsText[1], value: receiptsPerHour() },
+      { name: receiptsText[2], value: receiptsPerDay() },
+      { name: receiptsText[3], value: receiptsPerMonth() },
     ])
   }
 
   calcCostPrice() {
     const isMultiLayer = this.state.isMultiLayer
     const isCardboard = this.state.isCardboard
+
+    const costPriceText = this.props.data.costPriceText
 
     const currentLayer = isMultiLayer ? this.multiLayer : this.singleLayer
     const cardboardTypes = this.props.data.cardboardTypes
@@ -320,13 +324,13 @@ export default class App extends Component {
     this.costPricePerItem = costPricePerItem()
 
     return ([
-      { name: "За одно изделие", value: this.costPricePerItem },
-      { name: "Электроэнергия", value: electricity() },
-      { name: "Зарплата", value: salary() },
-      { name: "Печать", value: printCostPerItem() },
-      { name: "Высечка", value: carveCostPerItem() },
-      { name: "Сырье", value: rawPerItem() },
-      { name: "Упаковка", value:  boxingPrice()},
+      { name: costPriceText[0], value: this.costPricePerItem },
+      { name: costPriceText[1], value: electricity() },
+      { name: costPriceText[2], value: salary() },
+      { name: costPriceText[3], value: printCostPerItem() },
+      { name: costPriceText[4], value: carveCostPerItem() },
+      { name: costPriceText[5], value: rawPerItem() },
+      { name: costPriceText[6], value:  boxingPrice()},
     ])
   }
 
@@ -344,10 +348,8 @@ export default class App extends Component {
         <div className="container">
           <div className="row">
             <div className="col-24 text-center">
-              <h2 className="calc__heading">РАСЧЕТ СЕБЕСТОИМОСТИ</h2>
-              <p className="calc__subheading">
-                ПРОИЗВОДСТВА БУМАЖНЫХ СТАКАНОВ
-              </p>
+              <h2 className="calc__heading">{this.props.data.heading}</h2>
+              <p className="calc__subheading">{this.props.data.subHeading}</p>
             </div>
           </div>
           <div className="row">
@@ -362,11 +364,11 @@ export default class App extends Component {
             </div>
             <div className="col-24 col-md-16">
               <div className="calc__info c-info">
-                <div className="c-info__heading">Характеристики:</div>
+                <div className="c-info__heading">{this.props.data.info.heading}</div>
                 <div className="row">
                   <div className="col-xs-24 col-lg-12 col-xl-10">
                     <div className="c-info__property">
-                      <div className="c-info__title">Плотность бумаги:</div>
+                      <div className="c-info__title">{this.props.data.info.title}</div>
                       <div className="c-info__switch switch" />
                       <div className="switch__box">
                         <input
@@ -381,13 +383,13 @@ export default class App extends Component {
                           className="switch__label switch__label--1"
                           htmlFor="checkbox1"
                         >
-                          Однослойные
+                          {this.props.data.info.switch1}
                         </label>
                         <label
                           className="switch__label switch__label--2"
                           htmlFor="checkbox1"
                         >
-                          Двухслойные
+                          {this.props.data.info.switch2}
                         </label>
                       </div>
                     </div>
@@ -395,7 +397,7 @@ export default class App extends Component {
                   <div className="col-xs-24 col-lg-12 col-xl-14">
                     <div className="c-info__range">
                       <div className="c-info__title">
-                        Объем стакана:
+                        {this.props.data.info.range}
                       </div>
                       <RangeSlider 
                         values = {this.getRangeSliderValues()} 
@@ -422,20 +424,20 @@ export default class App extends Component {
                           className="switch__label switch__label--1"
                           htmlFor="checkbox2"
                         >
-                          Без печати
+                          {this.props.data.info.switch3}
                         </label>
                         <label
                           className="switch__label switch__label--2"
                           htmlFor="checkbox2"
                         >
-                          Подрядчик
+                          {this.props.data.info.switch4}
                         </label>
                       </div>
                     </div>
                   </div>
                   <div className="col-xs-24 col-sm-10 col-lg-10 col-xl-10">
                     <div className="c-info__property">
-                      <div className="c-info__title">Картон:</div>
+                      <div className="c-info__title">{this.props.data.info.package}</div>
                       <div className="c-info__switch switch" />
                       <div className="switch__box">
                         <input
@@ -450,13 +452,13 @@ export default class App extends Component {
                           className="switch__label switch__label--1"
                           htmlFor="checkbox3"
                         >
-                          Китай
+                          {this.props.data.info.country1}
                         </label>
                         <label
                           className="switch__label switch__label--2"
                           htmlFor="checkbox3"
                         >
-                          Европа
+                          {this.props.data.info.country2}
                         </label>
                       </div>
                     </div>
@@ -468,7 +470,7 @@ export default class App extends Component {
                       <div className="row">
                         <div className="col-12">
                           <div className="c-char__text">
-                            Зарплата оператора в месяц, руб
+                            {this.props.data.info.label1}
                           </div>
                         </div>
                         <div className="col-12">
@@ -480,7 +482,7 @@ export default class App extends Component {
                           />
                           {
                             this.state.isSalaryMaxLimit ? 
-                              <p className="c-char__text" style={{color: "#e14758"}}>Введите зачение от 0 до 100 000</p> : 
+                              <p className="c-char__text" style={{color: "#e14758"}}>{this.props.data.info.label1Error}</p> : 
                               false
                           }
                         </div>
@@ -492,7 +494,8 @@ export default class App extends Component {
                       <div className="row">
                         <div className="col-12">
                           <div className="c-char__text">
-                            Продажная цена 1 стакана
+                            
+                            {this.props.data.info.label2}
                           </div>
                         </div>
                         <div className="col-12">
@@ -505,7 +508,7 @@ export default class App extends Component {
 
                           {
                             this.state.isPackingMaxLimit ? 
-                              <p className="c-char__text" style={{color: "#e14758"}}>Введите зачение от 0 до 100</p> : 
+                              <p className="c-char__text" style={{color: "#e14758"}}>{this.props.data.info.label2Error}</p> : 
                               false
                           }
                         </div>
@@ -514,7 +517,7 @@ export default class App extends Component {
                   </div>
                   { 
                     (this.receiptsPerMonth <= 0) ?
-                      <div className="col-24 mt-3 text-center"><p className="c-char__text" style={{color: "#e14758"}}>Производство не рентабельно, увеличьте цену за 1 стакан</p></div> :
+                      <div className="col-24 mt-3 text-center"><p className="c-char__text" style={{color: "#e14758"}}>{this.props.data.info.receiptsError}</p></div> :
                       false
                   }
                 </div>
@@ -527,9 +530,7 @@ export default class App extends Component {
             <div className="row">
               <div className="col-xs-24 col-md-12 col-xl-8 result__col result__col--1">
                 <div className="result__box">
-                  <div className="result__heading">
-                    Производительность,{" "}
-                    <span className="result__heading--small">шт:</span>
+                  <div className="result__heading" dangerouslySetInnerHTML={{ __html: this.props.data.capacity[0] }}>
                   </div>
                   <table className="table table-borderless result__table">
                     <tbody>
@@ -547,8 +548,7 @@ export default class App extends Component {
                       }
                     </tbody>
                   </table>
-                  <div className="result__heading result__heading--small result__heading--margin">
-                    Буду производить/Надо произвести, шт. в месяц:
+                  <div className="result__heading result__heading--small result__heading--margin" dangerouslySetInnerHTML={{ __html: this.props.data.capacity[1] }}>
                   </div>
                   <input 
                     className="c-char__input c-char__input--small" 
@@ -560,9 +560,7 @@ export default class App extends Component {
               </div>
               <div className="col-xs-24 col-md-12 col-xl-8 result__col result__col--2">
                 <div className="result__box">
-                  <div className="result__heading">
-                    Выручка,{" "}
-                    <span className="result__heading--small">руб</span>
+                  <div className="result__heading" dangerouslySetInnerHTML={{ __html: this.props.data.receipts[0] }}>
                   </div>
                   <table className="table table-borderless result__table">
                     <tbody>
@@ -580,8 +578,8 @@ export default class App extends Component {
                       }
                     </tbody>
                   </table>
-                  <div className="result__heading result__heading--small result__heading--margin">
-                    Хочу прибыль, руб. в месяц:
+                  <div className="result__heading result__heading--small result__heading--margin" dangerouslySetInnerHTML={{ __html: this.props.data.receipts[1] }}>
+                    
                   </div>
                   <input 
                     className="c-char__input c-char__input--small" 
@@ -593,9 +591,8 @@ export default class App extends Component {
               </div>
               <div className="col-xs-24 col-md-24 col-xl-8 result__col result__col--3">
                 <div className="result__box">
-                  <div className="result__heading result__heading--dark">
-                    Себестоимость изделия,{" "}
-                    <span className="result__heading--small">руб</span>
+                  <div className="result__heading result__heading--dark" dangerouslySetInnerHTML={{ __html: this.props.data.costPrice[0] }}>
+                    
                   </div>
                   <table className="table table-borderless result__table">
                     <tbody>
