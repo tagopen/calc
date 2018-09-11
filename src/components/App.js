@@ -204,7 +204,7 @@ export default class App extends Component {
       const rangeSliderIndex = this.state.rangeIndex
       const pricePacking = currentLayer.pricePacking[rangeSliderIndex]
       const pricePerItem = (this.state.packing !== "") ? this.state.packing : pricePacking
-      const result = pricePerItem - this.costPricePerItem / workingDaysPerMonth / workingOursPerDay / productsPerHour
+      const result = (pricePerItem - this.costPricePerItem) / workingDaysPerMonth / workingOursPerDay / productsPerHour
 
       if (rangeSliderIndex < 0) return 0
       this.receiptsPerItem = result
