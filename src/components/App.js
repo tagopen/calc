@@ -581,7 +581,7 @@ export default class App extends Component {
                     </tbody>
                   </table>
                   <div className="result__heading result__heading--small result__heading--margin">
-                    Хочу прибыль, руб. в месяц:
+                    Хочу прибыль, <br /> руб. в месяц:
                   </div>
                   <input 
                     className="c-char__input c-char__input--small" 
@@ -615,6 +615,13 @@ export default class App extends Component {
                   </table>
                 </div>
               </div>
+            </div>
+            <div className="row justify-content-center">
+              <div className="col-24 col-md-20">
+                <div className="result__call text-center">
+                  Расчеты производились без учета затрат на аренду помещения, оплату налогов, маркетинга, расходных материалов, для более детального просчета звоните (номер телефона)  
+                </div>
+              </div>  
             </div>
           </div>
         </div>
