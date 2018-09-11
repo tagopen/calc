@@ -613,6 +613,13 @@ export default class App extends Component {
                 </div>
               </div>
             </div>
+            <div className="row justify-content-center">
+              <div className="col-24 col-md-20">
+                <div className="result__call text-center">
+                  {this.props.data.result} 
+                </div>
+              </div>  
+            </div>
           </div>
         </div>
       </section>
