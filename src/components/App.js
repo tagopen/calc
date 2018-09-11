@@ -200,13 +200,11 @@ export default class App extends Component {
     const productsPerDay =    capacityPerMinute * 60 * workingOursPerDay
     const productsPerMonth =  capacityPerMinute * 60 * workingOursPerDay * workingDaysPerMonth
 
-    const salaryPrice = (this.state.salary !== "") ? this.state.salary : 40000
-
     const receiptsPerItem = () => {
       const rangeSliderIndex = this.state.rangeIndex
       const pricePacking = currentLayer.pricePacking[rangeSliderIndex]
       const pricePerItem = (this.state.packing !== "") ? this.state.packing : pricePacking
-      const result = pricePerItem - this.costPricePerItem - salaryPrice / workingDaysPerMonth / workingOursPerDay / productsPerHour
+      const result = pricePerItem - this.costPricePerItem / workingDaysPerMonth / workingOursPerDay / productsPerHour
 
       if (rangeSliderIndex < 0) return 0
       this.receiptsPerItem = result
@@ -246,9 +244,12 @@ export default class App extends Component {
 
     const costPricePerItem = () => {
       const rawPerItemPrice = rawPerItem()
-      const printPrice = print()
+      const printCost = print()
+      const electricityCost = electricity()
+      const salaryCost = salary()
+      const boxingCost = boxingPrice()
 
-      return rawPerItemPrice + printPrice
+      return rawPerItemPrice + printCost + electricityCost + salaryCost + boxingCost
     }
 
     const electricity = () => {
@@ -328,7 +329,6 @@ export default class App extends Component {
       { name: "Упаковка", value:  boxingPrice()},
     ])
   }
-
 
   render() {
     const isMultiLayer = this.state.isMultiLayer

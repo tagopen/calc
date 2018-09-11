@@ -30,11 +30,11 @@ export const data = {
       280,
       300,
     ],
-    capacityPerMinute: "45",
-    workingOursPerDay: "22",
-    workingDaysPerMonth: "20",
+    capacityPerMinute: 45,
+    workingOursPerDay: 22,
+    workingDaysPerMonth: 20,
     boxing: {
-      priceForItem: "1"
+      priceForItem: 0.04
     },
     itemsPerTon: [
       144000,
@@ -70,12 +70,12 @@ export const data = {
       280,
       300,
     ],
-    capacityPerMinute: "50",
-    workingOursPerDay: "22",
-    workingDaysPerMonth: "7",
+    capacityPerMinute: 50,
+    workingOursPerDay: 22,
+    workingDaysPerMonth: 7,
     boxing: {
-      glue: "0.065",
-      priceForItem: "1"
+      glue: 0.00065,
+      priceForItem: 0.04
     },
     itemsPerTon: [
       144000,
