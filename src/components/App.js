@@ -352,13 +352,14 @@ export default class App extends Component {
               <p className="calc__subheading">{this.props.data.subHeading}</p>
             </div>
           </div>
-          <div className="row">
-            <div className="col-24 col-md-8">
-              <figure className="calc__picture" style={{transform: `scale(1.${this.state.rangeIndex})`}}>
+          <div className="row justify-content-center">
+            <div className="col-22 col-md-8">
+              <figure className="calc__picture">
                 <img
                   className="calc__img img-fluid"
-                  src={this.state.isPrint ? "/img/s1.png" : "/img/s2.png"}
+                  src={!this.state.isPrint ? "/img/s2.png" : !this.state.isMultiLayer ? "/img/s3.png" : "/img/s1.png"}
                   alt="стакан"
+                  style={{transform: `scale(1.${this.state.rangeIndex})`}}
                 />
               </figure>
             </div>
@@ -567,7 +568,7 @@ export default class App extends Component {
                       {
                         receipts.map((item, index) => {
                           const name = item.name
-                          const value = this.prettify(Number(item.value).toFixed(0))
+                          const value = this.prettify(Number(item.value).toFixed(2))
                           return (
                             <tr className="result__row" key={`receipts-${index}`}>
                               <td className="result__data result__data--left">{name}</td>
