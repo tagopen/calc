@@ -61,7 +61,7 @@ const GRVE = GRVE || {};
       GRVE.basicElements.init()
       GRVE.phoneMask.init()
       GRVE.ajax.init()
-      GRVE.ionRange.init()
+      GRVE.noUiSlider.init()
     }
   }
 
@@ -182,14 +182,26 @@ const GRVE = GRVE || {};
 
   // # Phone masked input
   // ============================================================================= //
-  GRVE.ionRange = {
+  GRVE.noUiSlider = {
     init() {
-      $("#c-info__range").ionRangeSlider({
-        type: "single",
-        grid: true,
-        values: [250, 350, 450],
-        hide_min_max: true,
-      });
+      
+    var keyboardSlider = document.getElementById('c-info__range');
+
+    noUiSlider.create(keyboardSlider, {
+    start: 250,
+    step: 100,
+    range: {
+      'min': 250,
+      'max': 450
+    },
+    pips: {
+    mode: 'values',
+    values: [250,350,450]
+    }
+  });
+
+
+
     }
   }
 

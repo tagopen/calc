@@ -93,7 +93,8 @@
     margin-bottom: 50px
 .c-info
   &__range
-    margin-bottom: 25px
+    margin-bottom: 40px
+    padding: 0 10px
   &__heading  
     font: 700 24px/31px $font-roboto
     color: #e14758
@@ -270,36 +271,34 @@
 +r(1200)  
   .c-char
     margin-bottom: 0       
-.irs-slider
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16) !important
-  border: 2px solid #ffffff !important
+.noUi-target
+  height: 10px
+  border: 0 !important
+  background: #e8e8e8 !important
+.noUi-horizontal .noUi-handle
+  box-shadow: 0 3px 6px rgba(0,0,0,.16) !important
+  border: 2px solid #fff !important
   background: #e14758 !important
-.irs-line
-  border: 0
-  background: #e8e8e8
-  box-shadow: none  
-.irs-bar
-  background: #e8e8e8
-  border: 0
-.irs-bar-edge
-  border: 0 
-  background: #e8e8e8
-.irs-line-left, 
-.irs-line-mid, 
-.irs-line-right  
-  background: #e8e8e8
-  border: 0
-.irs-single
+  height: 28px
+  width: 28px
+  border-radius: 28px
+  &:before,
+  &:after
+    content: none
+.noUi-pips-horizontal
+  padding: 0 !important
+  left: 1% !important
+  width: 98% !important  
+  height: auto  
+.noUi-marker-normal
   display: none
-.irs-grid-text
+.noUi-marker-horizontal.noUi-marker-large
+  width: 1px
+  height: 8px
+  background: #707070  
+.noUi-value
   color: rgba(53, 53, 53, 0.93)
   font: 400 12px/14px $font-pt-sans
-  bottom: 0
+  top: 10px
   &:after
     content: ' мл'
-.irs-grid-pol.small
-  display: none
-.irs-grid-pol
-  opacity: 1
-  background: #707070  
-  top: -5px
