@@ -87,7 +87,6 @@ export default class App extends Component {
       rangeValue: val,
       rangeIndex: rangeIndex
     })
-    console.log(this.state.rangeValue, this.state.rangeIndex)
 
   }
 
