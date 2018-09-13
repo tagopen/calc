@@ -94,6 +94,7 @@
       "//node_modules/vue-carousel-3d/dist/vue-carousel-3d.min.js",
       "//node_modules/jquery-countdown/dist/jquery.countdown.min.js",
       "//node_modules/owl.carousel/dist/owl.carousel.min.js",
+      "node_modules/nouislider/distribute/nouislider.js",
       "./build/js/*.js"
     ]
   },
@@ -114,6 +115,7 @@
     "jquery.maskedinput": "^1.4.1",
     "lazysizes": "^4.0.2",
     "loadjs": "^3.5.4",
+    "nouislider": "^11.1.0",
     "onepage-scroll": "^1.3.0",
     "owl.carousel": "^2.2.0",
     "parsleyjs": "^2.8.1",

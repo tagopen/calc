@@ -182,25 +182,31 @@ const GRVE = GRVE || {};
 
   // # Phone masked input
   // ============================================================================= //
+  GRVE.phoneMask = {
+    init() {
+      $('[type="tel"]').mask('+38 (099) 999 99 99')
+    }
+  }
+
+   // # noUiSlider
+  // ============================================================================= //
+
   GRVE.noUiSlider = {
     init() {
-      
-    var keyboardSlider = document.getElementById('c-info__range');
+       var keyboardSlider = document.getElementById('c-info__range');
 
-    noUiSlider.create(keyboardSlider, {
-    start: 250,
-    step: 100,
-    range: {
-      'min': 250,
-      'max': 450
-    },
-    pips: {
-    mode: 'values',
-    values: [250,350,450]
-    }
-  });
-
-
+      noUiSlider.create(keyboardSlider, {
+        start: 250,
+        step: 100,
+        range: {
+          'min': 250,
+          'max': 450
+        },
+        pips: {
+          mode: 'values',
+          values: [250,350,450]
+        }
+      });
 
     }
   }
