@@ -32,7 +32,7 @@ export default class App extends Component {
 
   prettify(num) {
       const  n = num.toString()
-      return n.replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, "$1" + " ")
+      return n.replace(/(\d{1,3}(?=(?:\d\d\d)+(?!\d)))/g, `$1 `)
   }
 
   getCapacityPerMonth(data) {
@@ -119,7 +119,7 @@ export default class App extends Component {
     const rangeSliderIndex = this.state.rangeIndex
     const currentLayer = this.state.isMultiLayer ? this.multiLayer : this.singleLayer
     const pricePacking = currentLayer.pricePacking[rangeSliderIndex]
-    let validValue = value.replace(/[^0-9\.]/g,'')
+    let validValue = value.replace(/[^0-9.]/g,'')
 
     if (validValue.split('.').length > 2)
       validValue = validValue.replace(/\.+$/,"")
@@ -135,7 +135,6 @@ export default class App extends Component {
         break
       default:
         this.setState({isPackingMaxLimit : false})
-        validValue = validValue
         break
     }
 
