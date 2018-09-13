@@ -79,7 +79,7 @@ export default class App extends Component {
     const isMultiLayer = this.state.isMultiLayer
     const currentLayer = isMultiLayer ? this.multiLayer : this.singleLayer
     const volumeRangeSlider = currentLayer.volume
-    const currentVolumeRangeSlider = this.state.rangeValue
+    const currentVolumeRangeSlider = val
 
     const rangeIndex = volumeRangeSlider.findIndex(item => item === currentVolumeRangeSlider)
 
@@ -87,6 +87,7 @@ export default class App extends Component {
       rangeValue: val,
       rangeIndex: rangeIndex
     })
+    console.log(this.state.rangeValue, this.state.rangeIndex)
 
   }
 

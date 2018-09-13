@@ -16,7 +16,6 @@ export default class RangeSlider extends Component {
   handleChange(val) {
     const value = Number(val)
     this.props.changeSelected(value)
-    console.log(value)
 
     this.setState({
       rangeSlider: { 
