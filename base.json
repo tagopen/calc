@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"lib": ["dom", "es2017"],
+		"baseUrl": ".",
+		"strict": true,
+		"paths": {
+			"@components/*": ["./src/components/*"],
+			"@components": ["./src/components"],
+			"@interfaces": ["./src/interfaces"],
+			"@interfaces/*": ["./src/interfaces/*"],
+			"@constants": ["./src/constants"],
+			"@reducers": ["./src/reducers"],
+			"@reducers/*": ["./src/reducers/*"],
+			"@actions": ["./src/actions"],
+			"@utils/*": ["./src/utils/*"],
+			"@utils": ["./src/utils"]
+		}
+	}
+}
