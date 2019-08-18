@@ -1,4 +1,8 @@
 import React from 'react'
+// import { connect } from 'react-redux'
+// import { bindActionCreators } from 'redux'
+// import { setRangeSliderValue } from './actions'
+
 import logo from './logo.svg'
 import './App.css'
 
@@ -24,3 +28,9 @@ const App: React.FC = () => {
 }
 
 export default App
+
+// export default connect(/*state => ({
+//   rangeSliderValue: state.math.rangeSliderValue,
+// }), */dispatch => bindActionCreators({
+//   setRangeSliderValue,
+// }, dispatch))(App)
